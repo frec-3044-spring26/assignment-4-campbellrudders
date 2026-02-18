@@ -1,6 +1,6 @@
 ---
 title: "Lake Ice Phenology: Part 1"
-author: 'YOUR NAME'
+author: Campbell Rudders
 format:
   html:
     embed-resources: true
@@ -19,7 +19,10 @@ For some reason, `read_excel()` does not like relative paths, so we will use the
 
 ```{r}
 library(here)
+
 file_name <- file.path(here(),"data/lake_ice_off_data.xlsx")
+
+
 ```
 
 Now use `read_excel()` to read in `file_name`. Remember that Excel files can have multiple sheets.
@@ -27,12 +30,16 @@ Now use `read_excel()` to read in `file_name`. Remember that Excel files can hav
 ```{r}
 library(readxl)
 
+file.exists("C:/Users/campb/OneDrive/Desktop/sophomore year/spring 2026/Environmental Data Science/assignment-4-campbellrudders/data/lake_ice_off_data.xlsx")
+
+
+ice <- read_excel(file_name, sheet = "data")
 ```
 
 Now, look at a preview of the data using the `head()` function. The `doy` in `ice_off_doy` stands for "day of the year" and is the day within the year where ice off occurred (January 1 = doy 1).  `did_not_freeze` is a column where 1 = did not freeze and 0 = did freeze.
 
 ```{r}
-
+head(ice)
 ```
 
 There should be four columns and \~2703 rows.
@@ -42,6 +49,11 @@ There should be four columns and \~2703 rows.
 We will practice key skills in the module using a focal lake. Use the `filter` function to filter the more extensive data to only contain the data from Lake Sunapee, a lake in New Hampshire. Filter the data `ice_data` by the variable `lake_name` to create a data frame called `sunapee`.
 
 ```{r}
+sunapee <- ice |> 
+  filter(lake_name == "Sunapee")
+
+
+sunapee
 
 ```
 
@@ -58,7 +70,12 @@ Be sure that the title, x-axis, and y-axis labels are clearly labeled.
 **Answer 1:**
 
 ```{r}
-
+ggplot(sunapee, aes(x = year, y = ice_off_doy)) +
+  geom_point() +
+  geom_line() +
+  labs(title = "Lake Sunapee Ice Off Data", 
+       x = "Year", 
+       y = "Day of Year")
 ```
 
 # How does ice cover change over time at Lake Sunapee?
@@ -69,6 +86,8 @@ We want to model how the ice-off date changes over time. Our approach in this mo
 
 What do you expect the sign (plus, minus, or no change) to be for the slope of the relationship? Why?
 
+**********
+
 **Answer 2:**
 
 Use the `lm` function to predict `ice_off_doy` as a function (`~`) of the year for the data.frame called `sunapee`. You can learn more about the `lm` function [here](https://www.datacamp.com/tutorial/linear-regression-R)
@@ -76,12 +95,14 @@ Use the `lm` function to predict `ice_off_doy` as a function (`~`) of the year f
 Create an object called `fit` that contains the results of the linear model.
 
 ```{r}
+fit = lm(ice_off_doy~year, data = sunapee)
 
 ```
 
 Then, use the function `summary` to explore the result of the `lm` function.
 
 ```{r}
+summary(fit)
 
 ```
 
@@ -98,6 +119,8 @@ What is the direction of the slope? How does this match your expectations from Q
 
 **Answer 3:**
 
+The slope is shallow and negative
+
 # Is our model any good?
 
 ## R2
@@ -109,6 +132,8 @@ First, it is important to understand how much variation is explained by the mode
 What is the R2 for the regression? Based on the R2, is `year` and `ice_off_doy` strongly related?
 
 **Answer 4:**
+
+The R2 for this regression is 0.2055, and based on this, `year` and `ice_off_doy` are not strongly related. 
 
 ## Residuals normally distributed
 
