@@ -91,7 +91,7 @@ What do you expect the sign (plus, minus, or no change) to be for the slope of t
 
 **Answer 2:**
 
-I expect the slope to be negative because in later years, the ice off date is later in the year. 
+I expect the slope to be negative because in later years, the ice off date is earlier in the year. 
 
 Use the `lm` function to predict `ice_off_doy` as a function (`~`) of the year for the data.frame called `sunapee`. You can learn more about the `lm` function [here](https://www.datacamp.com/tutorial/linear-regression-R)
 
@@ -210,6 +210,8 @@ Based on the `summary()` above, what is the p-value for the slope?
 
 **Answer 7:**
 
+Based on the summary above, the p-value for the slope is 0.0000000025. 
+
 ## The slope physically meaningful
 
 A slope value could have a low probability of being 0 (thus we have a strong belief that it is not zero), but the magnitude of change is functionally meaningless in the physical world (i.e., the rate of change is so small that we would not think much of it). This can occur particularly when analyzing large datasets.
@@ -219,6 +221,7 @@ A slope value could have a low probability of being 0 (thus we have a strong bel
 Based on the slope value, how many more years are needed to pass before the lake has a 1 week change in ice off doy? Do you think this is meaningful? Why?
 
 **Answer 8:**
+7 days/ -0.1060227 = about 66 years. The annual change is small and not noticeable year-to-year, the long-term shift is meaningful and consistent with warming trends observed. This data suggests gradual but ecologically important changes in seasonal lake.
 
 ## Overall model assessment
 
