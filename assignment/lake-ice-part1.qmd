@@ -258,8 +258,21 @@ The goal of this question is to make a forecast of the future ice-off day (with 
 
 **Answer 11:**
 
-```{r}
+The predicted ice-off day in 2024 is April 12th (102nd day of the year). The 90% confidence interval is between -19.427 and 14.151. Adding the 5% and 95% residual quantiles gives a 90% confidence interval of, the 83rd day of the year to the 117th day of the year. The confidence interval contains 34 days. 
 
+```{r}
+prediction_2040 <- fit$coefficients[1] + 2040 * fit$coefficients[2]
+
+prediction_2040
+
+quantiles <- quantile(fit$residual, probs = c(.05, .95))
+
+quantiles
+
+lower_2040 <- prediction_2040 + quantiles[1]
+upper_2040 <- prediction_2040 + quantiles[2]
+
+c(lower_2040, upper_2040)
 ```
 
 # Is the ice-off day of the year changing more quickly in more recent years at Lake Sunapee?
