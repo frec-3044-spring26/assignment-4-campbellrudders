@@ -231,7 +231,7 @@ How comfortable are you proceeding with using this linear model for additional a
 
 **Answer 9:**
 
-**************************
+This model is not very good. With an R-squared of only 20.55% and a slightly left skewed distribution, it is possible that there are better models for this data set. 
 
 **Question 10:**
 Now plot the data for Lake Sunapee (just like above - year on x-axis vs. ice of doy on y axis) but add the line from your regression results (e.g., fit intercept and slope). You will use the [`geom_abline`](https://ggplot2.tidyverse.org/reference/geom_abline.html). 
