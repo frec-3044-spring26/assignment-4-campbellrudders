@@ -285,6 +285,55 @@ Use the skills developed above to evaluate the question "Is the ice-off day of y
 
 **Answer 12:**
 
+The slope for the ice off data before 1970 is represented in the red line. The slope for the ice off data after 1970 is represented in the blue line. Looking at the graph, it is evident that the ice off day is changing more rapidly. The slope went from -0.109668 to -0.3023923, leading to the ice off day after 1970 to be earlier in the year compared to before 1970. 
+
+
+```{r}
+early_sunapee <- sunapee |> 
+  filter(year < 1970)
+
+late_sunapee <- sunapee |> 
+  filter(year >= 1970)
+
+early_fit = lm(ice_off_doy~year, data = early_sunapee)
+late_fit = lm(ice_off_doy~year, data = late_sunapee)
+
+early_sunapee <- early_sunapee |> 
+  add_residuals(early_fit) |> 
+  add_predictions(early_fit)
+
+late_sunapee <- late_sunapee |> 
+  add_residuals(late_fit) |> 
+  add_predictions(late_fit)
+
+early_fit$coefficients[1]
+early_fit$coefficients[2]
+
+late_fit$coefficients[1]
+late_fit$coefficients[2]
+
+lines_df <- data.frame(
+  intercept = c(325.5421, 711.9216),
+  slope = c(-0.109668, -0.3023923),
+  line_type = c("Before 1970", "After 1970"))
+
+ggplot(sunapee, aes(x = year, y = ice_off_doy)) +
+  geom_point() +
+  geom_line() +
+  geom_abline(aes(intercept = intercept, 
+              slope = slope, 
+              color = line_type), 
+              data = lines_df) +
+  scale_color_manual(values = c("Before 1970" = "red", 
+                                "After 1970" = "blue")) +
+  scale_x_continuous(breaks = seq(1860, 2030, by = 15)) +
+  scale_y_continuous(breaks = seq(80, 130, by = 15)) +
+  labs(title = "Lake Sunapee Ice Off Data", 
+       x = "Year", 
+       y = "Day of Year") 
+```
+
+
 Use a mix of code, figures, and text to present your analysis.  If you want to compare slopes, be sure they are on the same plot.
 
 # Rendering and committing
